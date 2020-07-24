@@ -1,20 +1,46 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Map, Modal, Panel} from './components'
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Button } from 'react-native';
+import { Map, Modal, Panel, Input } from './components';
 
 
 export default function App() {
-  const handleLongPress = (punto) => {
-    console.log('mapa', punto);
+  const [puntos, setPuntos] = useState([]);
+  const [nombre, setNombre] = useState("");
+  const [puntoTemp, setPuntoTemp] = useState({});
+  const [visibility, setVisibility] = useState(true);
+
+  const handleLongPress = ({ nativeEvent }) => {
+    setPuntoTemp(nativeEvent.coordinate)
+    setVisibility(true)
+  };
+
+  const handleChangeText = text => {
+    setNombre(text)
+  };
+
+  const handleCloseModal = () => {
+    setVisibility(false)
+  };
+
+  const handleSubmit = () => {
+    const newPunto = { coodinate: puntoTemp, name: nombre };
+    setPuntos(puntos.concat(newPunto))
+    handleCloseModal()
+    setNombre("")
   }
-  
 
   return (
-  <View style={styles.container}>
-    <Map  onLongPress={handleLongPress} />
-		<Modal />
-		<Panel />
-  </View> 
+    <View style={styles.container}>
+      <Map onLongPress={handleLongPress} />
+      <Modal
+        visibility={visibility}
+        onRequestClose={handleCloseModal}
+      >
+        <Input title="Ingrese el nombre" placeholder="Nombre del punto" onChangeText={handleChangeText} />
+        <Button title="Aceptar" onPress={handleSubmit} />
+      </Modal>
+      <Panel />
+    </View>
   );
 }
 

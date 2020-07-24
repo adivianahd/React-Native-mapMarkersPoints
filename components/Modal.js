@@ -1,17 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, Modal, }   from 'react-native';
+import { StyleSheet, Text, View, Modal }   from 'react-native';
 
 
-export default () => {
+export default ( {children, visibility, onRequestClose} ) => {
     return (
     <Modal
       animationType='slide'
       transparent={true}
-      visible={false}
+      visible={visibility}
+      onRequestClose={onRequestClose}
       >
       <View style={styles.center}>
         <View style={styles.modalView}>
-          <Text>:)</Text>
+          {children}
         </View>
       </View>
     </Modal>
