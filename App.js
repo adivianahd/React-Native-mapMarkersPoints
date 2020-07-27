@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
-import { Map, Modal, Panel, Input } from './components';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { Map, Modal, Panel, Input, Lista } from './components';
 
 
 export default function App() {
   const [puntos, setPuntos] = useState([]);
   const [nombre, setNombre] = useState("");
+  const [mostrarLista, setMostrarLista] = useState('new_punto');
   const [puntoTemp, setPuntoTemp] = useState({});
   const [visibility, setVisibility] = useState(true);
 
   const handleLongPress = ({ nativeEvent }) => {
+    setMostrarLista('new_punto')
     setPuntoTemp(nativeEvent.coordinate)
     setVisibility(true)
   };
@@ -27,7 +29,18 @@ export default function App() {
     setPuntos(puntos.concat(newPunto))
     handleCloseModal()
     setNombre("")
-  }
+  };
+
+  const handleCancelSubmit = () => {
+    handleCloseModal()
+    setNombre("")
+  };
+
+  const handleLista = () => {
+    setMostrarLista('all_puntos')
+    setVisibility(true)
+
+  };
 
   return (
     <View style={styles.container}>
@@ -36,10 +49,23 @@ export default function App() {
         visibility={visibility}
         onRequestClose={handleCloseModal}
       >
+        { mostrarLista === "new_punto" ?
+        <>
         <Input title="Ingrese el nombre" placeholder="Nombre del punto" onChangeText={handleChangeText} />
-        <Button title="Aceptar" onPress={handleSubmit} />
+        <View style={styles.buttonsContainerModal}>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text>Aceptar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleCancelSubmit}>
+            <Text>Cancelar</Text>
+          </TouchableOpacity>
+        </View>
+        </> 
+        : 
+        <Lista puntos={puntos} onPressOcultarLista={handleCloseModal}/>
+        }
       </Modal>
-      <Panel />
+      <Panel onPressLeft={handleLista} textLeft={'Lista'} />
     </View>
   );
 }
@@ -52,4 +78,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
+
+  button: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ccc"
+  },
+  buttonsContainerModal:{
+
+  },
+
 });
