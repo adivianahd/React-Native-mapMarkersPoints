@@ -19,7 +19,6 @@ export default ({ puntos , onPressOcultarLista}) => {
 const styles = StyleSheet.create({
   list:{
 		height: Dimensions.get('window').height - 400,
-	//	width: Dimensions.get('window').width - 200,
 	},
 	
   item:{

@@ -9,6 +9,9 @@ export default function App() {
   const [mostrarLista, setMostrarLista] = useState('new_punto');
   const [puntoTemp, setPuntoTemp] = useState({});
   const [visibility, setVisibility] = useState(false);
+  const [pointsFilter, setPointsFilter] = useState(true);
+
+  const togglePointsFilter = () => setPointsFilter(!pointsFilter)
 
   const handleLongPress = ({ nativeEvent }) => {
     setMostrarLista('new_punto')
@@ -25,14 +28,14 @@ export default function App() {
   };
 
   const handleSubmit = () => {
-    if(!nombre){
+    if (!nombre) {
       return;
     }
-    const newPunto = { coodinate: puntoTemp, name: nombre };
+    const newPunto = { coordinate: puntoTemp, name: nombre };
     setPuntos(puntos.concat(newPunto))
     handleCloseModal()
     setNombre("")
-    
+
   };
 
   const handleCancelSubmit = () => {
@@ -48,28 +51,28 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Map onLongPress={handleLongPress} />
+      <Map onLongPress={handleLongPress} puntos={puntos} pointsFilter={pointsFilter} />
       <Modal
         visibility={visibility}
         onRequestClose={handleCloseModal}
       >
-        { mostrarLista === "new_punto" ?
-        <>
-        <Input title="Ingrese el nombre" placeholder="Nombre del punto" onChangeText={handleChangeText} />
-        <View style={styles.buttonsContainerModal}>
-          <TouchableOpacity style={styles.button} disabled={!nombre} onPress={handleSubmit}>
-            <Text>Aceptar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={handleCancelSubmit}>
-            <Text>Cancelar</Text>
-          </TouchableOpacity>
-        </View>
-        </> 
-        : 
-        <Lista puntos={puntos} onPressOcultarLista={handleCloseModal}/>
+        {mostrarLista === "new_punto" ?
+          <View style={styles.form}>
+            <Input title="Ingrese el nombre" placeholder="Nombre del punto" onChangeText={handleChangeText} />
+            <View style={styles.buttonsContainerModal}>
+              <TouchableOpacity style={styles.button} disabled={!nombre} onPress={handleSubmit}>
+                <Text>Aceptar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={handleCancelSubmit}>
+                <Text>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          :
+          <Lista puntos={puntos} onPressOcultarLista={handleCloseModal} />
         }
       </Modal>
-      <Panel onPressLeft={handleLista} textLeft={'Lista'} />
+      <Panel onPressLeft={handleLista} textLeft={'Lista'} togglePointsFilter={togglePointsFilter} />
     </View>
   );
 }
@@ -88,10 +91,13 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
 
-  buttonsContainerModal:{
+  buttonsContainerModal: {
     flexDirection: "row",
     alignItems: 'center',
     justifyContent: "space-between",
+  },
+  form: {
+    padding: 20,
   },
 
 });
