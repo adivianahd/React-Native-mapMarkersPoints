@@ -8,7 +8,7 @@ export default function App() {
   const [nombre, setNombre] = useState("");
   const [mostrarLista, setMostrarLista] = useState('new_punto');
   const [puntoTemp, setPuntoTemp] = useState({});
-  const [visibility, setVisibility] = useState(true);
+  const [visibility, setVisibility] = useState(false);
 
   const handleLongPress = ({ nativeEvent }) => {
     setMostrarLista('new_punto')
@@ -25,10 +25,14 @@ export default function App() {
   };
 
   const handleSubmit = () => {
+    if(!nombre){
+      return;
+    }
     const newPunto = { coodinate: puntoTemp, name: nombre };
     setPuntos(puntos.concat(newPunto))
     handleCloseModal()
     setNombre("")
+    
   };
 
   const handleCancelSubmit = () => {
@@ -53,7 +57,7 @@ export default function App() {
         <>
         <Input title="Ingrese el nombre" placeholder="Nombre del punto" onChangeText={handleChangeText} />
         <View style={styles.buttonsContainerModal}>
-          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <TouchableOpacity style={styles.button} disabled={!nombre} onPress={handleSubmit}>
             <Text>Aceptar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={handleCancelSubmit}>
@@ -74,19 +78,20 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
 
   button: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ccc"
+    backgroundColor: "#ccc",
+    padding: 5,
+    borderRadius: 7,
   },
-  buttonsContainerModal:{
 
+  buttonsContainerModal:{
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: "space-between",
   },
 
 });

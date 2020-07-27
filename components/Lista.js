@@ -5,11 +5,11 @@ export default ({ puntos , onPressOcultarLista}) => {
 	return(
 		<View style={styles.list}>
 			<FlatList 
-			data={puntos.map(x => x.name)}
-			renderItem={({item}) => <Text>{item}</Text>}
-			keyExtractor= {item => item}
+				data={puntos.map(x => x.name)}
+				renderItem={({item}) => <View style={styles.item}><Text>{item}</Text></View>}
+				keyExtractor= {item => item}
 			/>
-			<TouchableOpacity onPress={onPressOcultarLista}>
+			<TouchableOpacity style={styles.touchable} onPress={onPressOcultarLista}>
 				<Text>Cerrar</Text>
 			</TouchableOpacity>
 		</View>
@@ -18,9 +18,19 @@ export default ({ puntos , onPressOcultarLista}) => {
 
 const styles = StyleSheet.create({
   list:{
-		justifyContent:"center",
-		alignItems:'center',
 		height: Dimensions.get('window').height - 400,
-		width: Dimensions.get('window').width - 200,
-  }
+	//	width: Dimensions.get('window').width - 200,
+	},
+	
+  item:{
+		borderBottomWidth: 1,
+		borderColor: '#ccc',
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: 50,
+	}, 
+
+	touchable:{
+		padding: 15
+	},
 })

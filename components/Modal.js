@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Modal }   from 'react-native';
+import { StyleSheet, Text, View, Modal, Dimensions}   from 'react-native';
 
 
 export default ( {children, visibility, onRequestClose} ) => {
@@ -27,9 +27,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.3)'
   },
   modalView:{
+    minWidth: Dimensions.get('window').width - 150,
     backgroundColor: "#fff",
+    justifyContent: 'center',
+		alignItems: 'center',
+    padding:0,
     borderRadius: 4,
-    padding: 40,
     shadowColor:'#f000',
     shadowOffset:{
       width: 0,
