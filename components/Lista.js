@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, FlatList, View, Text, TouchableOpacity, Dimensions } from 'react-native';
 
-export default ({ puntos, onPressSelectItem, onPressOcultarLista, selected }) => {
+export default ({ points, onPressSelectItem, onPressOcultarLista, selected }) => {
 	return (
 		<View style={styles.list}>
 			<FlatList
-				data={puntos.map(x => x.name)}
+				data={points.map(x => x.name)}
 				renderItem={({ item }) =>
 					<TouchableOpacity onPress={() => onPressSelectItem(item)}>
 						<View

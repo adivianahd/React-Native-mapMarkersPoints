@@ -4,24 +4,24 @@ import { Map, Modal, Panel, Input, Lista } from './components';
 
 
 export default function App() {
-  const [puntos, setPuntos] = useState([]);
-  const [nombre, setNombre] = useState("");
+  const [points, setPoints] = useState([]);
+  const [name, setName] = useState("");
   const [selected, setSelected] = useState("");
-  const [mostrarLista, setMostrarLista] = useState('new_punto');
-  const [puntoTemp, setPuntoTemp] = useState({});
+  const [showList, setShowList] = useState('new_point');
+  const [pointTemp, setPointTemp] = useState({});
   const [visibility, setVisibility] = useState(false);
   const [pointsFilter, setPointsFilter] = useState(true);
 
   const togglePointsFilter = () => setPointsFilter(!pointsFilter)
 
   const handleLongPress = ({ nativeEvent }) => {
-    setMostrarLista('new_punto')
-    setPuntoTemp(nativeEvent.coordinate)
+    setShowList('new_point')
+    setPointTemp(nativeEvent.coordinate)
     setVisibility(true)
   };
 
   const handleChangeText = text => {
-    setNombre(text)
+    setName(text)
   };
 
   const handleCloseModal = () => {
@@ -29,23 +29,23 @@ export default function App() {
   };
 
   const handleSubmit = () => {
-    if (!nombre) {
+    if (!name) {
       return;
     }
-    const newPunto = { coordinate: puntoTemp, name: nombre };
-    setPuntos(puntos.concat(newPunto))
+    const newPoint = { coordinate: pointTemp, name: name };
+    setPoints(points.concat(newPoint))
     handleCloseModal()
-    setNombre("")
+    setName("")
 
   };
 
   const handleCancelSubmit = () => {
     handleCloseModal()
-    setNombre("")
+    setName("")
   };
 
   const handleLista = () => {
-    setMostrarLista('all_puntos')
+    setShowList('all_points')
     setVisibility(true)
 
   };
@@ -59,23 +59,23 @@ export default function App() {
     setVisibility(false)
   }
 
-  let puntosFiltrados = puntos;
+  let pointsFiltrados = points;
   if (selected) {
-    puntosFiltrados = puntos.filter(e => e.name == selected);
+    pointsFiltrados = points.filter(e => e.name == selected);
   }
 
   return (
     <View style={styles.container}>
-      <Map onLongPress={handleLongPress} puntos={puntosFiltrados} pointsFilter={pointsFilter} />
+      <Map onLongPress={handleLongPress} points={pointsFiltrados} pointsFilter={pointsFilter} />
       <Modal
         visibility={visibility}
         onRequestClose={handleCloseModal}
       >
-        {mostrarLista === "new_punto" ?
+        {showList === "new_point" ?
           <View style={styles.form}>
             <Input title="Ingrese el nombre" placeholder="Nombre del punto" onChangeText={handleChangeText} />
             <View style={styles.buttonsContainerModal}>
-              <TouchableOpacity style={styles.button} disabled={!nombre} onPress={handleSubmit}>
+              <TouchableOpacity style={styles.button} disabled={!name} onPress={handleSubmit}>
                 <Text style={styles.text}>Aceptar</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={handleCancelSubmit}>
@@ -84,7 +84,7 @@ export default function App() {
             </View>
           </View>
           :
-          <Lista puntos={puntos} onPressOcultarLista={handleCloseModal} onPressSelectItem={selectItem} selected={selected} />
+          <Lista points={points} onPressOcultarLista={handleCloseModal} onPressSelectItem={selectItem} selected={selected} />
         }
       </Modal>
       <Panel onPressLeft={handleLista} textLeft={'Lista'} togglePointsFilter={togglePointsFilter} />
