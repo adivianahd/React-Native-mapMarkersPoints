@@ -6,6 +6,7 @@ import { Map, Modal, Panel, Input, Lista } from './components';
 export default function App() {
   const [puntos, setPuntos] = useState([]);
   const [nombre, setNombre] = useState("");
+  const [selected, setSelected] = useState("");
   const [mostrarLista, setMostrarLista] = useState('new_punto');
   const [puntoTemp, setPuntoTemp] = useState({});
   const [visibility, setVisibility] = useState(false);
@@ -49,9 +50,24 @@ export default function App() {
 
   };
 
+  const selectItem = (item) => {
+    if(item === selected) {
+      setVisibility(false)
+      return setSelected("")
+    }
+    setSelected(item)
+    setVisibility(false)
+  }
+ 
+
+  let puntosFiltrados = puntos;
+  if(selected) {
+    puntosFiltrados = puntos.filter(e =>  e.name == selected );
+  }
+  
   return (
     <View style={styles.container}>
-      <Map onLongPress={handleLongPress} puntos={puntos} pointsFilter={pointsFilter} />
+      <Map onLongPress={handleLongPress} puntos={puntosFiltrados} pointsFilter={pointsFilter} />
       <Modal
         visibility={visibility}
         onRequestClose={handleCloseModal}
@@ -69,7 +85,7 @@ export default function App() {
             </View>
           </View>
           :
-          <Lista puntos={puntos} onPressOcultarLista={handleCloseModal} />
+          <Lista puntos={puntos} onPressOcultarLista={handleCloseModal} onPressSelectItem={selectItem} selected={selected} />
         }
       </Modal>
       <Panel onPressLeft={handleLista} textLeft={'Lista'} togglePointsFilter={togglePointsFilter} />
