@@ -51,20 +51,19 @@ export default function App() {
   };
 
   const selectItem = (item) => {
-    if(item === selected) {
+    if (item === selected) {
       setVisibility(false)
       return setSelected("")
     }
     setSelected(item)
     setVisibility(false)
   }
- 
 
   let puntosFiltrados = puntos;
-  if(selected) {
-    puntosFiltrados = puntos.filter(e =>  e.name == selected );
+  if (selected) {
+    puntosFiltrados = puntos.filter(e => e.name == selected);
   }
-  
+
   return (
     <View style={styles.container}>
       <Map onLongPress={handleLongPress} puntos={puntosFiltrados} pointsFilter={pointsFilter} />
@@ -77,10 +76,10 @@ export default function App() {
             <Input title="Ingrese el nombre" placeholder="Nombre del punto" onChangeText={handleChangeText} />
             <View style={styles.buttonsContainerModal}>
               <TouchableOpacity style={styles.button} disabled={!nombre} onPress={handleSubmit}>
-                <Text>Aceptar</Text>
+                <Text style={styles.text}>Aceptar</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={handleCancelSubmit}>
-                <Text>Cancelar</Text>
+                <Text style={styles.text}>Cancelar</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -98,22 +97,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
-
-  button: {
-    backgroundColor: "#ccc",
-    padding: 5,
-    borderRadius: 7,
-  },
-
   buttonsContainerModal: {
     flexDirection: "row",
     alignItems: 'center',
-    justifyContent: "space-between",
+  },
+  button: {
+    backgroundColor: '#71A8A7',
+    padding: 8,
+    borderRadius: 7,
+    marginTop: 20,
   },
   form: {
-    padding: 20,
+    padding: 40,
+    backgroundColor: '#D5F5F5',
+    borderRadius: 15,
   },
-
+  text: {
+    fontSize: 16,
+  },
 });

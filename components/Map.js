@@ -2,7 +2,6 @@ import React from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, Dimensions } from 'react-native';
 
-
 export default ({ onLongPress, puntos, pointsFilter }) => {
   return (
 
@@ -17,13 +16,12 @@ export default ({ onLongPress, puntos, pointsFilter }) => {
           title={x.name}
         />)}
     </MapView>
-
   )
 }
 
 const styles = StyleSheet.create({
   map: {
-    height: Dimensions.get('window').height - 150,
+    height: Dimensions.get('window').height - 80,
     width: Dimensions.get('window').width,
   }
 });

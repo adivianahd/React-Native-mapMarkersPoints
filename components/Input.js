@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, Text, TextInput } from 'react-native';
 
 export default ({ title, ...rest }) => {
